@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jony Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --card: #141414;
+      --border: #222;
+      --text: #E8E8E8;
+      --muted: #666;
+      --accent: #3B82F6;
+      --green: #22C55E;
+      --yellow: #EAB308;
+      --purple: #A855F7;
+      --pink: #EC4899;
+      --orange: #F97316;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    
+    .header {
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-size: 20px; font-weight: 600; }
+    .logo span { color: var(--accent); }
+    .header-meta { font-size: 12px; color: var(--muted); }
+    
+    .container { max-width: 1400px; margin: 0 auto; padding: 40px; }
+    
+    h1 { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 40px; }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 20px;
+    }
+    
+    .client-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .client-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .client-name {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .client-tag {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tag-active { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .tag-internal { background: rgba(59, 130, 246, 0.15); color: var(--accent); }
+    .tag-client { background: rgba(168, 85, 247, 0.15); color: var(--purple); }
+    .tag-paused { background: rgba(102, 102, 102, 0.15); color: var(--muted); }
+    
+    .client-body { padding: 16px 24px; }
+    
+    .deliverable {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .deliverable:last-child { border-bottom: none; }
+    
+    .deliverable-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .deliverable-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      background: var(--border);
+    }
+    
+    .deliverable-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .deliverable-type {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    
+    .deliverable-link {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .deliverable-link:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      margin-top: 40px;
+    }
+    
+    .empty-state {
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+    }
+    
+    @media (max-width: 500px) {
+      .grid { grid-template-columns: 1fr; }
+      .container { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Jony <span>Dashboard</span></div>
+  <div class="header-meta">Last updated: <span id="lastUpdated"></span></div>
+</div>
+
+<div class="container">
+  <h1>Project & Client Hub</h1>
+  <p class="subtitle">All deliverables organized by project. Updated by Sofi & Jadis.</p>
+
+  <!-- INTERNAL PROJECTS -->
+  <div class="section-title">Internal / Kyros</div>
+  <div class="grid">
+    
+    <!-- TEND -->
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">🤖 Tend</div>
+        <span class="client-tag tag-active">Active</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📄</div>
+            <div>
+              <div class="deliverable-name">Sales Kit</div>
+              <div class="deliverable-type">1-pager, tweets, emails, guide</div>
+            </div>
+          </div>
+          <a href="https://tend-sales-kit.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📊</div>
+            <div>
+              <div class="deliverable-name">Launch Plan</div>
+              <div class="deliverable-type">GTM strategy, pricing, roadmap</div>
+            </div>
+          </div>
+          <a href="https://tend-launch-plan.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📋</div>
+            <div>
+              <div class="deliverable-name">Business Proposal (Jakeh)</div>
+              <div class="deliverable-type">Full proposal for Kyros</div>
+            </div>
+          </div>
+          <a href="https://tend-launch.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">🐦</div>
+            <div>
+              <div class="deliverable-name">X Dashboard</div>
+              <div class="deliverable-type">Tweet templates, cadence</div>
+            </div>
+          </div>
+          <a href="https://tend-x-dashboard.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">🌐</div>
+            <div>
+              <div class="deliverable-name">Website</div>
+              <div class="deliverable-type">Live site</div>
+            </div>
+          </div>
+          <a href="https://withtend.ai" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONYX -->
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">💎 Onyx Fund</div>
+        <span class="client-tag tag-internal">Internal</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📑</div>
+            <div>
+              <div class="deliverable-name">Investor Deck v8</div>
+              <div class="deliverable-type">Pitch deck</div>
+            </div>
+          </div>
+          <a href="#" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKYLRK -->
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">🎵 SKYLRK / PLAY</div>
+        <span class="client-tag tag-active">Active</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📱</div>
+            <div>
+              <div class="deliverable-name">SKYLRK World Prototype</div>
+              <div class="deliverable-type">Telegram Mini App v8</div>
+            </div>
+          </div>
+          <a href="https://skylrk-v8.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- KYROS -->
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">🏛️ Kyros</div>
+        <span class="client-tag tag-internal">Internal</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📊</div>
+            <div>
+              <div class="deliverable-name">Portfolio Summary</div>
+              <div class="deliverable-type">Board overview PDF</div>
+            </div>
+          </div>
+          <a href="#" class="deliverable-link">Open →</a>
+        </div>
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📈</div>
+            <div>
+              <div class="deliverable-name">Situation Room</div>
+              <div class="deliverable-type">Macro dashboard preview</div>
+            </div>
+          </div>
+          <a href="https://kyros-sitrep.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENTS -->
+  <div class="section-title">Clients</div>
+  <div class="grid">
+    
+    <!-- HARLEY'S ANGELS -->
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">👼 Harley's Angels</div>
+        <span class="client-tag tag-client">Client</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📋</div>
+            <div>
+              <div class="deliverable-name">Brand Strategy Briefing</div>
+              <div class="deliverable-type">Full context doc</div>
+            </div>
+          </div>
+          <a href="https://gist.github.com/jjimenez2255/4d2dd51e32d287bcac71959e873fede5" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">🔬</div>
+            <div>
+              <div class="deliverable-name">Research Dashboard</div>
+              <div class="deliverable-type">Market analysis, personas</div>
+            </div>
+          </div>
+          <a href="https://harleys-angels-research.surge.sh" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIT ZERO TCG -->
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">🃏 Hit Zero TCG</div>
+        <span class="client-tag tag-paused">Scoping</span>
+      </div>
+      <div class="client-body">
+        <div class="empty-state">Scoping in progress — AI art for cheerleading TCG (~50 cards)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="section-title">Resources</div>
+  <div class="grid">
+    
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">🎨 Design Direction</div>
+        <span class="client-tag tag-internal">Reference</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📐</div>
+            <div>
+              <div class="deliverable-name">jj's Design System</div>
+              <div class="deliverable-type">Typography, colors, principles</div>
+            </div>
+          </div>
+          <a href="https://gist.github.com/jjimenez2255/542fd6007e08fbe79618bef7ff8c1338" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="client-card">
+      <div class="client-header">
+        <div class="client-name">🍳 Recipes</div>
+        <span class="client-tag tag-internal">Personal</span>
+      </div>
+      <div class="client-body">
+        <div class="deliverable">
+          <div class="deliverable-info">
+            <div class="deliverable-icon">📖</div>
+            <div>
+              <div class="deliverable-name">Recipe Book</div>
+              <div class="deliverable-type">jj's recipes</div>
+            </div>
+          </div>
+          <a href="https://recipes-eight-beige.vercel.app" target="_blank" class="deliverable-link">Open →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Jony Dashboard · Managed by Sofi & Jadis · <a href="https://github.com/jjimenez2255/jony-dashboard" style="color: var(--accent);">GitHub</a>
+</div>
+
+<script>
+  document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', { 
+    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+</script>
+
+</body>
+</html>
