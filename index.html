@@ -221,6 +221,88 @@
       color: var(--muted); font-size: 12px;
       border-top: 1px solid var(--border); margin-top: 60px;
     }
+
+    /* === MIND / INBOX === */
+    .mind-wrap {
+      margin-bottom: 56px; padding: 28px;
+      background: linear-gradient(180deg, rgba(59,130,246,0.04), rgba(59,130,246,0));
+      border: 1px solid var(--border); border-radius: 14px;
+    }
+    .mind-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
+    }
+    .mind-title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
+    .mind-title .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 10px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .mind-sub { font-size: 12px; color: var(--muted); }
+    .mind-counts { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+    .mind-counts span { color: var(--text); }
+    .mind-filters { display: flex; gap: 8px; margin: 18px 0 20px; flex-wrap: wrap; }
+    .mind-filter {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 6px 12px; border-radius: 100px;
+      background: var(--card); border: 1px solid var(--border); color: var(--muted);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .mind-filter:hover { color: var(--text); }
+    .mind-filter.active { background: var(--elevated); color: var(--text); border-color: var(--accent); }
+    .mind-day { margin-bottom: 24px; }
+    .mind-day-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .mind-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 18px; margin-bottom: 10px;
+      transition: border-color 0.15s;
+    }
+    .mind-item:hover { border-color: #2a2a2a; }
+    .mind-item.done { opacity: 0.55; }
+    .mind-item.done .mind-item-title { text-decoration: line-through; }
+    .mind-item-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 12px;
+    }
+    .mind-item-title { font-size: 14px; font-weight: 500; line-height: 1.4; flex: 1; }
+    .mind-item-body { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+    .mind-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .mind-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 9px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 4px;
+      background: rgba(102,102,102,0.12); color: var(--muted);
+    }
+    .mind-status {
+      font-family: 'JetBrains Mono', monospace; font-size: 9px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px; flex-shrink: 0;
+      border: 1px solid; white-space: nowrap;
+    }
+    .mind-status.open { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border); }
+    .mind-status.sorting { background: var(--purple-bg); color: var(--purple); border-color: var(--purple-border); }
+    .mind-status.done { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+    .mind-status.parked { background: rgba(102,102,102,0.1); color: var(--muted); border-color: rgba(102,102,102,0.25); }
+    .mind-notes { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+    .mind-note {
+      display: flex; gap: 10px; padding: 6px 0;
+      font-size: 12px; color: var(--muted); line-height: 1.5;
+    }
+    .mind-note-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      color: var(--dim); flex-shrink: 0; padding-top: 1px;
+    }
+    .mind-empty { text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
+    .mind-howto {
+      margin-top: 20px; padding: 14px 16px;
+      background: var(--elevated); border: 1px solid var(--border); border-radius: 8px;
+      font-size: 12px; color: var(--muted); line-height: 1.6;
+    }
+    .mind-howto code {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -233,6 +315,29 @@
 <div class="container">
   <h1>Project & Client Hub</h1>
   <p class="subtitle">All deliverables organized by project. Updated by Sofi.</p>
+
+  <!-- ==================== ON MY MIND ==================== -->
+  <div class="mind-wrap">
+    <div class="mind-head">
+      <div>
+        <div class="mind-title"><span class="dot"></span>On My Mind</div>
+        <div class="mind-sub">A working list. Not projects, not deliverables - just stuff to think through.</div>
+      </div>
+      <div class="mind-counts" id="mindCounts"></div>
+    </div>
+    <div class="mind-filters" id="mindFilters">
+      <button class="mind-filter active" data-filter="all">All</button>
+      <button class="mind-filter" data-filter="open">Open</button>
+      <button class="mind-filter" data-filter="sorting">Sorting</button>
+      <button class="mind-filter" data-filter="parked">Parked</button>
+      <button class="mind-filter" data-filter="done">Done</button>
+    </div>
+    <div id="mindList"><div class="mind-empty">Loading…</div></div>
+    <div class="mind-howto">
+      <strong style="color:var(--text)">How to use:</strong>
+      Tell Sofi <code>mind: &lt;thought&gt;</code> to add. <code>note on &lt;id or topic&gt;: &lt;text&gt;</code> to thread a note. <code>mark &lt;id&gt; sorted/parked/done</code> to update status.
+    </div>
+  </div>
 
   <!-- ==================== MAIN: SURGE INDEX ==================== -->
 
@@ -650,5 +755,68 @@
   });
 </script>
 
+<script>
+(async function() {
+  const list = document.getElementById('mindList');
+  const counts = document.getElementById('mindCounts');
+  const filters = document.getElementById('mindFilters');
+  let data = { items: [] };
+  let active = 'all';
+
+  function fmtDate(d) {
+    const dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function render() {
+    const items = (data.items || []).filter(i => active === 'all' || i.status === active);
+    if (!items.length) { list.innerHTML = '<div class="mind-empty">Nothing here yet. Tell Sofi: <code>mind: ...</code></div>'; return; }
+    const grouped = {};
+    items.forEach(i => { (grouped[i.date] = grouped[i.date] || []).push(i); });
+    const dates = Object.keys(grouped).sort().reverse();
+    list.innerHTML = dates.map(d => `
+      <div class="mind-day">
+        <div class="mind-day-label">${fmtDate(d)}</div>
+        ${grouped[d].map(item => `
+          <div class="mind-item ${item.status === 'done' ? 'done' : ''}">
+            <div class="mind-item-row">
+              <div class="mind-item-title">${escape(item.title)}</div>
+              <span class="mind-status ${item.status}">${item.status}</span>
+            </div>
+            ${item.body ? `<div class="mind-item-body">${escape(item.body)}</div>` : ''}
+            ${item.tags && item.tags.length ? `<div class="mind-tags">${item.tags.map(t => `<span class="mind-tag">${escape(t)}</span>`).join('')}</div>` : ''}
+            ${item.notes && item.notes.length ? `<div class="mind-notes">${item.notes.map(n => `<div class="mind-note"><span class="mind-note-date">${n.date}</span><span>${escape(n.text)}</span></div>`).join('')}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+  }
+
+  function escape(s) { return String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function updateCounts() {
+    const c = { open: 0, sorting: 0, parked: 0, done: 0 };
+    (data.items || []).forEach(i => { if (c[i.status] !== undefined) c[i.status]++; });
+    counts.innerHTML = `<span>${c.open}</span> open &middot; <span>${c.sorting}</span> sorting &middot; <span>${c.parked}</span> parked &middot; <span>${c.done}</span> done`;
+  }
+
+  filters.addEventListener('click', e => {
+    if (!e.target.matches('.mind-filter')) return;
+    document.querySelectorAll('.mind-filter').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    active = e.target.dataset.filter;
+    render();
+  });
+
+  try {
+    const res = await fetch('mind.json?v=' + Date.now());
+    data = await res.json();
+    updateCounts();
+    render();
+  } catch(e) {
+    list.innerHTML = '<div class="mind-empty">Could not load mind.json</div>';
+  }
+})();
+</script>
 </body>
 </html>

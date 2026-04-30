@@ -1,0 +1,14 @@
+{
+  "updated": "2026-04-30",
+  "items": [
+    {
+      "id": "2026-04-30-1",
+      "date": "2026-04-30",
+      "title": "Inbox is now live",
+      "body": "Send Sofi 'mind:' or 'on my mind today:' followed by what's rattling around. She'll capture it here. Reply 'note on X: ...' and she'll thread the note under the right item. Mark it 'sorted', 'parked', or 'done' anytime.",
+      "tags": ["meta"],
+      "status": "open",
+      "notes": []
+    }
+  ]
+}
