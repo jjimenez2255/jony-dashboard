@@ -17,3 +17,5 @@ Example:
 ## Entries
 
 <!-- Add new entries below this line. One per line, starting with "- ". -->
+
+- 2026-05-11 · Tend · Positioning Kit · tend-toolkit.surge.sh
