@@ -20,3 +20,5 @@ Example:
 
 - 2026-05-11 · Tend · Positioning Kit · tend-toolkit.surge.sh
 - 2026-05-11 · Personal Study · How Iger Moves · iger-notes.surge.sh
+- 2026-05-12 · NEWW · Shoreline Discovery (updated with transcript pull quotes) · neww-shoreline.vercel.app
+- 2026-05-12 · NEWW x Tend · Shoreline Brand Audit (with stickies) · shoreline-audit.vercel.app
